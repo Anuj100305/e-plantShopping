@@ -1,49 +1,38 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Provider, useSelector } from "react-redux";
+import store from "./store";
+import AboutUs from "./AboutUs";
+import ProductList from "./ProductList";
+import CartItem from "./CartItem";
+import "./App.css";
 
-import React, { useState } from 'react';
-import ProductList from './ProductList';
-import './App.css';
-import AboutUs from './AboutUs';
-
-function App() {
-  
-  const [showProductList, setShowProductList] = useState(false);
-
-  const handleGetStartedClick = () => {
-    setShowProductList(true);
-  };
-
-  const handleHomeClick = () => {
-    setShowProductList(false);
-  };
+const Header = () => {
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
   return (
-    <div className="app-container">
-      <div className={`landing-page ${showProductList ? 'fade-out' : ''}`}>
-        <div className="background-image"></div>
-        <div className="content">
-         <div className="landing_content">
-         <h1>Welcome To Paradise Nursery</h1>
-          <div className="divider"></div>
-          <p>Where Green Meets Serenity</p>
-         
-          <button className="get-started-button" onClick={handleGetStartedClick}>
-            Get Started
-          </button>
-         </div>
-          <div className="aboutus_container">
-          <AboutUs/>
-          </div>
-          </div>
+    <header className="header">
+      <nav>
+        <Link to="/products">Products</Link>
+        <Link to="/cart">Cart ({totalQuantity})</Link>
+      </nav>
+    </header>
+  );
+};
 
-      </div>
-      <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
-        <ProductList onHomeClick={handleHomeClick}/>
-      </div>
-    </div>
+function App() {
+  return (
+    <Provider store={store}>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<AboutUs />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/cart" element={<CartItem />} />
+        </Routes>
+      </Router>
+    </Provider>
   );
 }
 
 export default App;
-
-
-
