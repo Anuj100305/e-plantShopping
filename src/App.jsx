@@ -24,12 +24,30 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <Header />
         <Routes>
-            <Route path="/" element={<AboutUs />} />
-            <Route path="/products" element={<ProductList />} />
-            <Route path="/cart" element={<CartItem />} />
-            <Route path="*" element={<AboutUs />} />
+          <Route path="/" element={<AboutUs />} />
+
+          <Route
+            path="/products"
+            element={
+              <>
+                <Header />
+                <ProductList />
+              </>
+            }
+          />
+
+          <Route
+            path="/cart"
+            element={
+              <>
+                <Header />
+                <CartItem />
+              </>
+            }
+          />
+
+          <Route path="*" element={<AboutUs />} />
         </Routes>
       </Router>
     </Provider>
